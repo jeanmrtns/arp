@@ -7,22 +7,22 @@ clear
 
 # NETID = IP && NetMask
 
-NET="10.132.3."
+
+NET=$(ifconfig $i | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\." | tail -3 | head -1)
 tabela=''
 
 echo
 
 for i in {5..18}; do
-	for j in {3..3}; do
-    echo "ping -c 1 10.132.${j}.${i}"
+	for j in {3..5}; do
+    echo "ping -c 1 -i 1 ${NET}${j}.${i}"
         echo
-	  aux=`ping -c 1 10.132.${j}.${i} >/dev/null 2>&1 && arp -na | grep -E "${NET}${i}" | awk '{print $2"\t"$4}'`
+	  aux=`ping -c 1 -i 1 ${NET}${j}.${i} >/dev/null 2>&1 && arp -na | grep -E "${NET}${i}" | awk '{print $2"\t"$4}'`
     aux2=$(echo $aux | awk '{ print $2;}')
 
     if [[ $(echo $aux2) != "<incompleto>" ]]
       then
-        tabela="${tabela}
-   ${aux}"
+        tabela="${tabela} ${aux}"
     fi
   done
 done
