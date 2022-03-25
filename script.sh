@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# authors: Jean Martins, Lucas Paiva, Ulysses Ferreira
+
 clear
 
 NET=$(ifconfig $i | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\." | tail -3 | head -1)
